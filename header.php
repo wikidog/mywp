@@ -3,7 +3,7 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
   <link rel="profile" href="http://gmpg.org/xfn/11">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<?php wp_head(); ?>
@@ -23,11 +23,14 @@
           <div class="site-header__menu group">
             <nav class="main-navigation">
               <ul>
+              <?php wp_nav_menu(); ?>
+              <!--
                 <li><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
                 <li><a href="#">Programs</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Campuses</a></li>
                 <li><a href="#">Blog</a></li>
+                -->
               </ul>
             </nav>
             <div class="site-header__util">
