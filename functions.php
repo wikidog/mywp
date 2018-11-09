@@ -22,6 +22,8 @@ function my_theme_setup() {
 
   // register navigation menus
   register_nav_menus(array('headerMenuLocation' => 'Header Menu Location'));
+  register_nav_menus(array('footerLocationOne' => 'Footer Location One'));
+  register_nav_menus(array('footerLocationTwo' => 'Footer Location Two'));
 }
 
 add_action('after_setup_theme', 'my_theme_setup');
