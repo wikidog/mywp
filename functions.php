@@ -48,3 +48,40 @@ function my_theme_scripts() {
 }
 
 add_action( 'wp_enqueue_scripts', 'my_theme_scripts' );
+
+/**
+ * register custom post types
+ **   the wp-content/mu-plugins directory probably is a better place
+ */
+function my_theme_post_types() {
+  register_post_type('event', [
+    'supports' => ['title', 'editor', 'excerpt'],
+    'rewrite' => ['slug' => 'events'],
+    'has_archive' => true,
+    'public' => true,
+    'labels' => [
+      'name' => 'Events',
+      'add_new_item' => 'Add New Event',
+      'edit_item' => 'Edit Event',
+      'all_items' => 'All Events',
+      'singular_name' => 'Event',
+    ],
+    'menu_icon' => 'dashicons-calendar', // WordPress dash icons
+  ]);
+}
+
+add_action('init', 'my_theme_post_types');
+
+/**
+ *  customize WordPress's main query
+ */
+function my_theme_adjust_queries($query) {
+  if (!is_admin() && is_post_type_archive('event') && $query->is_main_query()) {
+    $query->set('meta_key', 'event_date');
+    $query->set('orderby', 'meta_value_num');
+    $query->set('order', 'desc');
+
+  }
+}
+
+add_action('pre_get_posts', 'my_theme_adjust_queries');
