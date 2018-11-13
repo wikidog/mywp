@@ -54,6 +54,9 @@ add_action( 'wp_enqueue_scripts', 'my_theme_scripts' );
  **   the wp-content/mu-plugins directory probably is a better place
  */
 function my_theme_post_types() {
+
+  // Event post type
+  //
   register_post_type('event', [
     'supports' => ['title', 'editor', 'excerpt'],
     'rewrite' => ['slug' => 'events'],
@@ -68,6 +71,24 @@ function my_theme_post_types() {
     ],
     'menu_icon' => 'dashicons-calendar', // WordPress dash icons
   ]);
+
+  // Program post type
+  //
+  register_post_type('program', [
+    'supports' => ['title', 'editor'],
+    'rewrite' => ['slug' => 'programs'],
+    'has_archive' => true,
+    'public' => true,
+    'labels' => [
+      'name' => 'Programs',
+      'add_new_item' => 'Add New Program',
+      'edit_item' => 'Edit Program',
+      'all_items' => 'All Programs',
+      'singular_name' => 'Program',
+    ],
+    'menu_icon' => 'dashicons-awards', // WordPress dash icons
+  ]);
+
 }
 
 add_action('init', 'my_theme_post_types');
@@ -76,11 +97,19 @@ add_action('init', 'my_theme_post_types');
  *  customize WordPress's main query
  */
 function my_theme_adjust_queries($query) {
+
+  // adjust query for Program post type
+  if (!is_admin() && is_post_type_archive('program') && $query->is_main_query()) {
+    $query->set('orderby', 'title');
+    $query->set('order', 'asc');
+    $query->set('post_per_page', -1);
+  }
+
+  // adjust query for Event post type
   if (!is_admin() && is_post_type_archive('event') && $query->is_main_query()) {
     $query->set('meta_key', 'event_date');
     $query->set('orderby', 'meta_value_num');
     $query->set('order', 'desc');
-
   }
 }
 

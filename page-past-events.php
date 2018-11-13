@@ -17,7 +17,7 @@
   $today = date('Ymd');
   // the query
   $the_query = new WP_Query([
-    'paged' => get_query_var('paged', 1),
+    'paged' => get_query_var('paged', 1),  //* pagination
     // 'posts_per_page' => 1,
     'post_type' => 'event',
     'meta_key' => 'event_date',
@@ -64,7 +64,7 @@
 <?php endif; ?>
 
 <?php echo paginate_links([
-  'total' => $the_query->max_num_pages,
+  'total' => $the_query->max_num_pages,  //* pagination
 ]); ?>
 
 </div> <!-- container -->
