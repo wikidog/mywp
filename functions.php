@@ -12,13 +12,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 /**
  * Theme Setup
  */
 function my_theme_setup() {
   // enables plugins and themes to manage the document <title> tag
   add_theme_support('title-tag');
+
+  // enable post thumbnails (featured images)
+  add_theme_support('post-thumbnails');
+
+  add_image_size('professorLandscape', 400, 260, true); // true: crop the image
+  add_image_size('professorPortrait', 480, 650, true); // true: crop the image
 
   // register navigation menus
   register_nav_menus(array('headerMenuLocation' => 'Header Menu Location'));
@@ -87,6 +92,23 @@ function my_theme_post_types() {
       'singular_name' => 'Program',
     ],
     'menu_icon' => 'dashicons-awards', // WordPress dash icons
+  ]);
+
+  // Professor post type
+  //
+  register_post_type('professor', [
+    'supports' => ['title', 'editor', 'thumbnail'],
+    // 'rewrite' => ['slug' => 'professors'],  //* don't need when no archives
+    // 'has_archive' => true,  //* no archive page to list all Professors
+    'public' => true,
+    'labels' => [
+      'name' => 'Professors',
+      'add_new_item' => 'Add New Professor',
+      'edit_item' => 'Edit Professor',
+      'all_items' => 'All Professors',
+      'singular_name' => 'Professor',
+    ],
+    'menu_icon' => 'dashicons-welcome-learn-more', // WordPress dash icons
   ]);
 
 }
