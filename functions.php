@@ -78,6 +78,23 @@ function my_theme_post_types() {
     'menu_icon' => 'dashicons-calendar', // WordPress dash icons
   ]);
 
+  // Campus post type
+  //
+  register_post_type('campus', [
+    'supports' => ['title', 'editor', 'excerpt'],
+    'rewrite' => ['slug' => 'campuses'],
+    'has_archive' => true,
+    'public' => true,
+    'labels' => [
+      'name' => 'Campuses',
+      'add_new_item' => 'Add New Campus',
+      'edit_item' => 'Edit Campus',
+      'all_items' => 'All Campuses',
+      'singular_name' => 'Campus',
+    ],
+    'menu_icon' => 'dashicons-location-alt', // WordPress dash icons
+  ]);
+
   // Program post type
   //
   register_post_type('program', [
@@ -149,16 +166,28 @@ function pageBanner($args = []) {
             get_field('page_banner_background_image') ?
               get_field('page_banner_background_image')['sizes']['pageBanner'] :
               get_theme_file_uri('/images/ocean.jpg');
-?>
-  <div class="page-banner">
-    <div class="page-banner__bg-image" style="background-image: url(<?php echo $image; ?>);"></div>
-    <div class="page-banner__content container container--narrow">
-      <h1 class="page-banner__title"><?php echo $title; ?></h1>
-      <div class="page-banner__intro">
-        <p><?php echo $subtitle; ?></p>
+
+  ?>
+    <div class="page-banner">
+      <div class="page-banner__bg-image" style="background-image: url(<?php echo $image; ?>);"></div>
+      <div class="page-banner__content container container--narrow">
+        <h1 class="page-banner__title"><?php echo $title; ?></h1>
+        <div class="page-banner__intro">
+          <p><?php echo $subtitle; ?></p>
+        </div>
       </div>
     </div>
-  </div>
-<?php
+  <?php
 
 }
+
+/**
+ * add Google API key for Google Map Custom Field
+ */
+function universityMapKey($api) {
+  $api['key'] = 'AIzaSyBS_zOMdWdzVASmMkjQYCtxcqEelbYApBM';
+
+  return $api;
+}
+
+add_filter('acf/fields/google_map/api', 'universityMapKey');
