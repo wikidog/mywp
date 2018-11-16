@@ -11,7 +11,7 @@
 <!-- Start the Loop. -->
 <?php if ( have_posts() ) : ?>
 
-<ul class="link-list min-list">
+<div class="acf-map">
 
 <?php while ( have_posts() ) : the_post(); ?>
 
@@ -19,14 +19,9 @@
 
   <div class="marker" data-lat="<?php echo $mapLocation['lat']; ?>" data-lng="<?php echo $mapLocation['lng']; ?>"></div>
 
-  <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-
-  <?php print_r(get_field('map_location')); ?>
-
-
 <?php endwhile; ?>
 
-</ul>
+</div>
 
 <?php endif; ?>
 

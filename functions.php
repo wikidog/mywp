@@ -51,6 +51,9 @@ function my_theme_scripts() {
   // js
   //
   wp_enqueue_script('my-theme-js', get_theme_file_uri('/js/scripts-bundled.js'), NULL, '1.0', true);
+
+  // google map
+  wp_enqueue_script('google-map-js', '//maps.googleapis.com/maps/api/js?key=AIzaSyBS_zOMdWdzVASmMkjQYCtxcqEelbYApBM&callback=initMap', NULL, '1.0', true);
 }
 
 add_action( 'wp_enqueue_scripts', 'my_theme_scripts' );
