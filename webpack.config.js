@@ -1,5 +1,6 @@
 const path = require('path');
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
   entry: './js/scripts.js',
@@ -24,10 +25,16 @@ module.exports = {
       },
     ],
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: './src/index.html',
-  //     filename: './index.html',
-  //   }),
-  // ],
+  plugins: [
+    // new HtmlWebpackPlugin({
+    //   template: './src/index.html',
+    //   filename: './index.html',
+    // }),
+    new BrowserSyncPlugin({
+      host: 'localhost',
+      port: 3000,
+      files: ['*.php'],
+      proxy: 'http://localhost/wordpress', // proxy request to the Apache server
+    }),
+  ],
 };

@@ -69,7 +69,6 @@
 
     </div><!-- #wrap -->
 
-
 </div><!-- #outer-wrap -->
 
 <?php wp_footer(); ?>

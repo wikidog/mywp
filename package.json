@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --open --hot --history-api-fallback",
-    "build": "webpack --mode production"
+    "dev": "webpack-dev-server --mode development --open --hot --history-api-fallback",
+    "build": "webpack --mode production",
+    "start": "npm run build && npm run dev"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,8 @@
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "babel-loader": "^8.0.4",
+    "browser-sync": "^2.26.3",
+    "browser-sync-webpack-plugin": "^2.2.2",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.10"
