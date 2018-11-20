@@ -1,16 +1,15 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 module.exports = {
   entry: './js/scripts.js',
-  // entry: './src/index.js',
 
   output: {
-    // output to ./assets/scripts-bundle.js
-    //
+    // output to ./js/scripts-bundle.js
     path: path.resolve(__dirname, 'js'),
     filename: 'scripts-bundled.js',
+    // the link to the js file is
+    //   http://localhost:8080/assets/scripts-bundled.js
     publicPath: '/assets/',
   },
 
@@ -25,16 +24,27 @@ module.exports = {
       },
     ],
   },
+
   plugins: [
     // new HtmlWebpackPlugin({
     //   template: './src/index.html',
     //   filename: './index.html',
     // }),
-    new BrowserSyncPlugin({
-      host: 'localhost',
-      port: 3000,
-      files: ['*.php'],
-      proxy: 'http://localhost/wordpress', // proxy request to the Apache server
-    }),
+    new BrowserSyncPlugin(
+      {
+        host: 'localhost',
+        port: 3000,
+        files: ['*.php'],
+        // proxy request to the Apache server
+        proxy: 'http://localhost/wordpress',
+      },
+      {
+        // prevent BrowserSync from reloading the page
+        // and let Webpack Dev Server take care of this
+        // Webpack Dev Server will try to update with HMR
+        // before trying to reload the whole page
+        reload: false,
+      }
+    ),
   ],
 };
