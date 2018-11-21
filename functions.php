@@ -144,11 +144,16 @@ add_action('init', 'my_theme_post_types');
  */
 function my_theme_adjust_queries($query) {
 
+  // adjust query for Campus post type
+  if (!is_admin() && is_post_type_archive('campus') && $query->is_main_query()) {
+    $query->set('posts_per_page', -1);
+  }
+
   // adjust query for Program post type
   if (!is_admin() && is_post_type_archive('program') && $query->is_main_query()) {
     $query->set('orderby', 'title');
     $query->set('order', 'asc');
-    $query->set('post_per_page', -1);
+    $query->set('posts_per_page', -1);
   }
 
   // adjust query for Event post type
