@@ -1,12 +1,16 @@
 import $ from 'jquery';
+import debounce from 'lodash/debounce';
 
 class Search {
   constructor() {
     this.openButton = $('.js-search-trigger');
     this.closeButton = $('.search-overlay__close');
     this.searchOverlay = $('.search-overlay');
+    this.searchField = $('#search-term');
+    this.resultsDiv = $('#search-overlay__results');
     this.events();
     this.isOverlayOpen = false;
+    this.typingTimer;
   }
 
   events() {
@@ -14,6 +18,12 @@ class Search {
     this.closeButton.on('click', this.closeOverlay.bind(this));
 
     $(document).on('keydown', this.keyPressDispatcher.bind(this));
+
+    this.searchField.on('keydown', debounce(this.typingLogic.bind(this), 2000));
+  }
+
+  typingLogic() {
+    this.resultsDiv.html('imagine real ');
   }
 
   keyPressDispatcher(e) {
