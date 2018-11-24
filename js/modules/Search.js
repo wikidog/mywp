@@ -53,10 +53,20 @@ class Search {
   }
 
   queryApi(e) {
-    console.log('aaa');
+    $.getJSON(
+      `http://localhost:3000/wordpress/wp-json/wp/v2/posts?search=${this.searchField.val()}`,
+      data => {
+        if (data) {
+          this.resultsDiv.html(`
+            <h2 class="search-overlay__section-title">General Information</h2>
+            <ul>
+              <li><a href="#">${data[0].title.rendered}</a></li>
+            </ul>
+          `);
+        }
+      }
+    );
     this.isSpinnerVisible = false;
-    this.resultsDiv.html('imagine real');
-    console.log(e.key);
   }
 
   keyPressDispatcher(e) {
