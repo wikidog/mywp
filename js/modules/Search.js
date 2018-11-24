@@ -2,15 +2,20 @@ import $ from 'jquery';
 import debounce from 'lodash/debounce';
 
 class Search {
+  //
   constructor() {
     this.openButton = $('.js-search-trigger');
     this.closeButton = $('.search-overlay__close');
     this.searchOverlay = $('.search-overlay');
     this.searchField = $('#search-term');
     this.resultsDiv = $('#search-overlay__results');
-    this.events();
+
     this.isOverlayOpen = false;
-    this.typingTimer;
+    this.isSpinnerVisible = false;
+    this.previousSearchValue;
+
+    this.events();
+    this.debounced = debounce(this.queryApi, 2000);
   }
 
   events() {
@@ -19,11 +24,39 @@ class Search {
 
     $(document).on('keydown', this.keyPressDispatcher.bind(this));
 
-    this.searchField.on('keydown', debounce(this.typingLogic.bind(this), 2000));
+    this.searchField.on('keyup', this.typingLogic.bind(this));
   }
 
-  typingLogic() {
-    this.resultsDiv.html('imagine real ');
+  typingLogic(e) {
+    const currentSearchValue = this.searchField.val();
+
+    //! fires up the logic only when the value of the search field changes
+    if (currentSearchValue != this.previousSearchValue) {
+      //
+      //! cancel the previous debounced when the search value changes
+      this.debounced.cancel();
+
+      // search value is not empty
+      if (currentSearchValue) {
+        if (!this.isSpinnerVisible) {
+          this.isSpinnerVisible = true;
+          this.resultsDiv.html('<div class="spinner-loader"></div>');
+        }
+        this.debounced(e);
+      } else {
+        this.resultsDiv.html('');
+        this.isSpinnerVisible = false;
+      }
+
+      this.previousSearchValue = currentSearchValue;
+    }
+  }
+
+  queryApi(e) {
+    console.log('aaa');
+    this.isSpinnerVisible = false;
+    this.resultsDiv.html('imagine real');
+    console.log(e.key);
   }
 
   keyPressDispatcher(e) {
@@ -33,7 +66,15 @@ class Search {
      *! Using a flag (isOverlayOpen) is to avoid the handler function
      *! gets called repeatedly.
      */
-    if (e.keyCode === 83 && !this.isOverlayOpen) {
+    if (
+      e.keyCode === 83 &&
+      !this.isOverlayOpen &&
+      /**
+       *! this is to prevent the short-cut key invoking the search overlay
+       *! when user is typing in the input or textarea field
+       */
+      !$('input, textarea').is(':focus')
+    ) {
       // this is the "s" key
       this.openOverlay();
     }
