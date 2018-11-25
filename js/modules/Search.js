@@ -15,7 +15,7 @@ class Search {
     this.previousSearchValue;
 
     this.events();
-    this.debounced = debounce(this.queryApi, 2000);
+    this.debounced = debounce(this.queryApi, 100);
   }
 
   events() {
@@ -56,13 +56,16 @@ class Search {
     $.getJSON(
       `http://localhost:3000/wordpress/wp-json/wp/v2/posts?search=${this.searchField.val()}`,
       data => {
-        if (data) {
+        console.log(data);
+        if (data.length > 0) {
           this.resultsDiv.html(`
             <h2 class="search-overlay__section-title">General Information</h2>
             <ul>
               <li><a href="#">${data[0].title.rendered}</a></li>
             </ul>
           `);
+        } else {
+          this.resultsDiv.html('Nothing found');
         }
       }
     );
