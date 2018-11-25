@@ -15,7 +15,7 @@ class Search {
     this.previousSearchValue;
 
     this.events();
-    this.debounced = debounce(this.queryApi, 100);
+    this.debounced = debounce(this.queryApi, 500);
   }
 
   events() {
@@ -60,8 +60,13 @@ class Search {
         if (data.length > 0) {
           this.resultsDiv.html(`
             <h2 class="search-overlay__section-title">General Information</h2>
-            <ul>
-              <li><a href="#">${data[0].title.rendered}</a></li>
+            <ul class="link-list min-list">
+              ${data
+                .map(
+                  item =>
+                    `<li><a href="${item.link}">${item.title.rendered}</a></li>`
+                )
+                .join('')}
             </ul>
           `);
         } else {
