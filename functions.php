@@ -12,6 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require get_theme_file_path('/inc/search-route.php');
+
 /**
  * Theme Setup
  */
@@ -193,6 +195,17 @@ function pageBanner($args = []) {
   <?php
 
 }
+
+/**
+ * customize WordPress REST API
+ */
+function my_theme_custom_rest() {
+  register_rest_field('post', 'authorName', [
+    'get_callback' => function() { return get_the_author(); }
+  ]);
+}
+
+add_action('rest_api_init', 'my_theme_custom_rest');
 
 /**
  * add Google API key for Google Map Custom Field
