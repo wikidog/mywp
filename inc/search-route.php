@@ -62,5 +62,28 @@ function my_theme_search_results($data) {
     }
   }
 
+  // program relationship query
+  $query2 = new WP_Query([
+    'post_type' => 'professor',
+    'meta_query' => [[
+        'key' => 'related_programs',
+        'compare' => 'LIKE',
+        'value' => '"97"',
+      ]],
+  ]);
+  while ($query2->have_posts()) {
+    $query2->the_post();
+
+    if (get_post_type() === 'professor') {
+      array_push($rtn['professors'], [
+        'title' => get_the_title(),
+        'permalink' => get_the_permalink(),
+        'image' => get_the_post_thumbnail_url(0, 'professorLandscape'),
+      ]);
+    }
+  }
+
+  $rtn['professors'] = array_values(array_unique($rtn['professors'], SORT_REGULAR));
+
   return $rtn;
 }
